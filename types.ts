@@ -3,6 +3,7 @@ export enum AppView {
   OPTIMIZER = 'OPTIMIZER',
   TRENDS = 'TRENDS',
   IDEAS = 'IDEAS',
+  SETTINGS = 'SETTINGS',
 }
 
 export interface TrendData {

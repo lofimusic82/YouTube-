@@ -4,6 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { Trends } from './components/Trends';
 import { Optimizer } from './components/Optimizer';
 import { IdeaGenerator } from './components/IdeaGenerator';
+import { Settings } from './components/Settings';
 import { AppView, ChannelStats } from './types';
 
 const App: React.FC = () => {
@@ -35,6 +36,14 @@ const App: React.FC = () => {
         return <Optimizer />;
       case AppView.IDEAS:
         return <IdeaGenerator />;
+      case AppView.SETTINGS:
+        return (
+          <Settings 
+            isConnected={isConnected} 
+            onDisconnect={() => setIsConnected(false)} 
+            onConnect={() => setIsConnected(true)} 
+          />
+        );
       default:
         return <Dashboard stats={stats} onConnect={() => setIsConnected(true)} />;
     }
@@ -46,6 +55,7 @@ const App: React.FC = () => {
         currentView={currentView} 
         onChangeView={setCurrentView} 
         isChannelConnected={isConnected} 
+        onConnect={() => setIsConnected(true)}
       />
       
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
@@ -57,6 +67,7 @@ const App: React.FC = () => {
             {currentView === AppView.TRENDS && 'Trend Intelligence'}
             {currentView === AppView.OPTIMIZER && 'Metadata Optimization'}
             {currentView === AppView.IDEAS && 'Content Ideation'}
+            {currentView === AppView.SETTINGS && 'App Settings'}
           </h2>
           
           {/* Simulating User Profile */}

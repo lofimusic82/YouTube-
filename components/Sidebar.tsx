@@ -6,9 +6,10 @@ interface SidebarProps {
   currentView: AppView;
   onChangeView: (view: AppView) => void;
   isChannelConnected: boolean;
+  onConnect: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isChannelConnected }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isChannelConnected, onConnect }) => {
   const navItems = [
     { id: AppView.DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
     { id: AppView.TRENDS, label: 'Trend Hunter', icon: TrendingUp },
@@ -49,25 +50,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isC
 
       <div className="p-4 border-t border-dark-800">
         {isChannelConnected ? (
-          <div className="flex items-center space-x-3 bg-dark-800 p-3 rounded-lg border border-dark-700/50">
+          <button 
+            onClick={() => onChangeView(AppView.SETTINGS)}
+            className="w-full flex items-center space-x-3 bg-dark-800 p-3 rounded-lg border border-dark-700/50 hover:border-brand-500/30 transition-colors text-left group"
+          >
             <img 
               src="https://picsum.photos/seed/user/40/40" 
               alt="Channel" 
-              className="w-10 h-10 rounded-full ring-2 ring-brand-900"
+              className="w-10 h-10 rounded-full ring-2 ring-brand-900 group-hover:ring-brand-500 transition-all"
             />
             <div className="overflow-hidden">
               <p className="text-sm font-medium text-white truncate">Tech Explorer</p>
-              <p className="text-xs text-slate-400">12.5K subs</p>
+              <p className="text-xs text-slate-400 group-hover:text-brand-400 transition-colors">12.5K subs</p>
             </div>
-          </div>
+          </button>
         ) : (
-          <div className="p-3 rounded-lg bg-dark-800 border border-dashed border-dark-600 text-center">
-            <p className="text-xs text-slate-400 mb-2">No Channel Linked</p>
-            <p className="text-[10px] text-slate-500">Connect to sync analytics</p>
-          </div>
+          <button 
+            onClick={onConnect}
+            className="w-full p-3 rounded-lg bg-dark-800 border border-dashed border-dark-600 text-center hover:bg-dark-700 hover:border-dark-500 transition-all group"
+          >
+            <p className="text-xs text-slate-400 mb-2 group-hover:text-slate-300">No Channel Linked</p>
+            <p className="text-[10px] text-slate-500 group-hover:text-brand-400 font-medium">Click to connect</p>
+          </button>
         )}
         
-        <button className="mt-4 w-full flex items-center justify-center space-x-2 text-slate-500 hover:text-slate-300 text-xs transition-colors">
+        <button 
+          onClick={() => onChangeView(AppView.SETTINGS)}
+          className={`mt-4 w-full flex items-center justify-center space-x-2 text-xs transition-colors ${
+            currentView === AppView.SETTINGS 
+              ? 'text-brand-500 font-medium' 
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
           <Settings className="w-4 h-4" />
           <span>Settings</span>
         </button>
